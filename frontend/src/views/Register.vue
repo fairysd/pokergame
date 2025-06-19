@@ -15,11 +15,13 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/user';
 
 const username = ref('');
 const password = ref('');
 const error = ref('');
 const router = useRouter();
+const userStore = useUserStore();
 
 async function onRegister() {
   error.value = '';
@@ -28,9 +30,14 @@ async function onRegister() {
       username: username.value,
       password: password.value
     });
-    localStorage.setItem('token', res.data.token);
-    localStorage.setItem('username', res.data.username);
-    router.push('/lobby');
+    const token = res.data.token;
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    userStore.setUser({
+      userId: payload.id,
+      username: res.data.username,
+      token
+    });
+    router.push('/rooms');
   } catch (err) {
     error.value = err.response?.data?.message || '注册失败';
   }
