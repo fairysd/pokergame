@@ -4,6 +4,7 @@ import Register from '../views/Register.vue';
 import Lobby from '../views/Lobby.vue';
 import RoomList from '../views/RoomList.vue';
 import RoomDetail from '../views/RoomDetail.vue';
+import Table from '../views/Table.vue';
 
 const routes = [
   { path: '/', redirect: '/login' },
@@ -11,7 +12,8 @@ const routes = [
   { path: '/register', component: Register },
   { path: '/lobby', component: Lobby },
   { path: '/rooms', component: RoomList },
-  { path: '/room/:id', component: RoomDetail }
+  { path: '/room/:id', component: RoomDetail },
+  { path: '/table/:roomId', component: Table }
 ];
 
 const router = createRouter({

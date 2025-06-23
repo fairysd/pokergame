@@ -57,6 +57,10 @@ function connectWS() {
   };
   ws.value.onmessage = (e) => {
     const data = JSON.parse(e.data);
+    if (data.type === 'gameStart') {
+      router.push(`/table/${room.value._id}`);
+      return;
+    }
     if (data.type === 'roomUpdate') {
       if (data.room === null) {
         error.value = '房间已解散';
@@ -65,6 +69,9 @@ function connectWS() {
       }
       room.value = data.room;
       hands.value = null;
+    }
+    if (data.type === 'tableUpdate') {
+      router.push(`/table/${room.value._id}`);
     }
     if (data.type === 'gameStart') {
       room.value = data.room;
